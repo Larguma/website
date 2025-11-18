@@ -1,16 +1,113 @@
 ﻿@page "/"
+@using largumaDev.Components.Layout
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Home - Larguma</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="home-page">
+  <header class="hero">
+    <p class="eyebrow">Helooo! I'm Larguma</p>
+    <h1>Building random things</h1>
+    <p class="subtitle">
+      I like to try everything, like building web apps, coding game mods, random Linux distros, not hating Java for once
+      (it's complicated) and more.
+      Everything here is work-in-progress, but, on purpose.
+    </p>
+    <div class="hero-actions">
+      <a class="button primary" href="/Minecraft">View Minecraft Mods</a>
+      <a class="button secondary" href="https://github.com/Larguma" target="_blank" rel="noopener noreferrer">Visit
+        GitHub</a>
+    </div>
+  </header>
 
-This website is still under construction and I don't really know what to put here yet.
-<br />
+  <section class="highlight-section">
+    <h2>✨ Highlights</h2>
+    <div class="highlight-grid">
+      <article class="highlight-card">
+        <h3>🎮 Minecraft Mods</h3>
+        <p>Magic and artifacts, "beautiful" mobs and 3D models, and nothing finished (yet).</p>
+        <a href="/Minecraft" class="text-link">See the Minecraft page →</a>
+      </article>
+      <article class="highlight-card">
+        <h3>🛠️ Everything else</h3>
+        <p>A discord bot and some utils for Hyprland</p>
+        <a href="https://github.com/Larguma?tab=repositories" target="_blank" rel="noopener noreferrer"
+          class="text-link">Browse GitHub repos →</a>
+      </article>
+      <article class="highlight-card">
+        <h3>📚 Currently Learning</h3>
+        <p>Neoforge, PALM (wind simulation), how to run a pub</p>
+        <span class="pill">this list might be outdated</span>
+      </article>
+    </div>
+  </section>
 
-<a href="https://modrinth.com/user/Larguma" title="Modrinth Profile">Modrinth Profile</a>
-<a href="https://www.curseforge.com/members/Larguma" title="CurseForge Profile">CurseForge Profile</a>
-<a href="https://github.com/Larguma" title="GitHub Profile">GitHub Profile</a>
+  <section class="status-section">
+    <h2>📅 Kanban</h2>
+    <div class="status-cards">
+      <article class="status-card">
+        <span class="status-label maybe">Maybe</span>
+        <h3>Desktop companion app</h3>
+        <p>I want to try building a desktop app using hyprtoolkit or Qt. If I have an idea I will do it I promise</p>
+      </article>
+      <article class="status-card">
+        <span class="status-label in-progress">In progress</span>
+        <h3>New Minecraft mod to build factories</h3>
+        <p>There will be tiny factories like one block but with sub-dimensions. A mix-up between Mekanism and Compact
+          Machines ? Maybe</p>
+      </article>
+      <article class="status-card">
+        <span class="status-label shipped">In prod</span>
+        <h3>New website</h3>
+        <p>This website! Keeping things Catppuccin-themed (Gruvbox is ugly).</p>
+      </article>
+    </div>
+  </section>
 
-<br />
-
-<a href="mailto:contact@larguma.dev" title="Contact Me">Contact Me</a>
+  <section class="links-section">
+    <h2>🔗 All the links</h2>
+    <div class="links-grid">
+      <a href="https://modrinth.com/user/Larguma" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="link-icon">💚</div>
+        <div class="link-content">
+          <strong>Modrinth</strong>
+          <span>Mods, releases, and WIP builds</span>
+        </div>
+      </a>
+      <a href="https://www.curseforge.com/members/Larguma" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="link-icon">🔥</div>
+        <div class="link-content">
+          <strong>CurseForge</strong>
+          <span>Mirrors</span>
+        </div>
+      </a>
+      <a href="https://github.com/Larguma" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="link-icon">🐙</div>
+        <div class="link-content">
+          <strong>GitHub</strong>
+          <span>Code, experiments, scraps</span>
+        </div>
+      </a>
+      <a href="https://pixel-punks.itch.io" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="link-icon">👾</div>
+        <div class="link-content">
+          <strong>itch.io</strong>
+          <span>Game jams</span>
+        </div>
+      </a>
+      <a href="mailto:contact@larguma.dev" class="link-card">
+        <div class="link-icon">✉️</div>
+        <div class="link-content">
+          <strong>Email</strong>
+          <span>Don't contact me</span>
+        </div>
+      </a>
+      <a href="https://ko-fi.com/larguma" class="link-card">
+        <div class="link-icon">☕</div>
+        <div class="link-content">
+          <strong>Ko-fi</strong>
+          <span>If you have too much money</span>
+        </div>
+      </a>
+    </div>
+  </section>
+</div>

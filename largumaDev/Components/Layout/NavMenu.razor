@@ -1,18 +1,29 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">larguma.dev</a>
+﻿<nav class="nav-surface">
+    <div class="nav-leading">
+        <a class="brand" href="/">
+            <div class="brand-copy">
+                <span class="brand-title">larguma.dev</span>
+            </div>
+        </a>
     </div>
-</div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+    <input id="nav-toggle" type="checkbox" title="Navigation menu" class="nav-toggle" />
+    <label for="nav-toggle" class="nav-toggle-button" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
+    <div class="nav-collection" onclick="document.getElementById('nav-toggle').checked = false">
+        <div class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                Home
             </NavLink>
         </div>
-    </nav>
-</div>
-
+        <div class="nav-item">
+            <NavLink class="nav-link" href="Minecraft" Match="NavLinkMatch.All">
+                Minecraft
+            </NavLink>
+        </div>
+    </div>
+</nav>

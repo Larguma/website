@@ -1,0 +1,48 @@
+@inject NavigationManager Navigation
+
+<a href="https://modrinth.com/mod/@Slug" target="_blank" rel="noopener noreferrer" class="modrinth-badge-link">
+  <img src="@BadgeUrl" alt="@Slug on Modrinth" loading="lazy" />
+</a>
+
+@code {
+  [Parameter]
+  public required string Slug { get; set; }
+
+  private string BadgeUrl => $"{Navigation.BaseUri}modrinth/badge/{Slug}";
+}
+
+<style>
+  .modrinth-badge-link {
+    display: inline-block;
+    line-height: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .modrinth-badge-link:hover {
+    transform: translateY(-2px);
+    margin-bottom: -4px;
+    border-radius: 10px;
+    border: 2px solid #cba6f7;
+    box-shadow: 0 4px 12px rgba(203, 166, 247, 0.2);
+    text-decoration: none;
+  }
+
+  .modrinth-badge-link img {
+    display: block;
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  @@media (max-width: 768px) {
+    .modrinth-badge-link img {
+      width: 100%;
+    }
+  }
+
+  @@media (max-width: 480px) {
+    .modrinth-badge-link img {
+      width: 100%;
+    }
+  }
+</style>

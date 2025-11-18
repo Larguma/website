@@ -1,0 +1,68 @@
+﻿@page "/Minecraft"
+@using System.Text
+@using Microsoft.VisualBasic
+@using largumaDev.Components.Layout
+
+<PageTitle>Minecraft Mods - Larguma</PageTitle>
+
+<div class="minecraft-page">
+  <div class="page-header">
+    <h1>🎮 Minecraft Modding</h1>
+    <p class="subtitle">get modded</p>
+  </div>
+
+  <div class="intro-section">
+    <p class="intro-text">
+      Minecraft vanilla is good but a little bit boring after like 10k+ hours. So mods are needed. There are a lot of
+      mods; but not enough, never enough ! And I like game dev so I make mods.
+    </p>
+  </div>
+
+  <div class="mods-section">
+    <h2>⚙️ My Mods</h2>
+
+    <div class="mod-card">
+      <div class="mod-header">
+        <h3>Crawling Mysteries</h3>
+        <span class="badge">First Release</span>
+      </div>
+      <p class="mod-description">
+        My first mod ! And it's absolutely not in a playable state. I tried to implement too much too quickly and now
+        it's archived with no plans to update it. But you can check it if you want, there is a tombstone mechanic with a
+        mob guarding it and some magic items.
+      </p>
+      <div class="mod-badge-container">
+        <ModrinthBadge Slug="crawling-mysteries" />
+      </div>
+    </div>
+
+    <div class="coming-soon">
+      <h3>🚀 What's Next ?</h3>
+      <p>
+        More mods are in the works (or at least the idea of more mods). I'm trying new loader and libraries.
+        Everything will be posted here, on Modrinth and CurseForge (eventually).
+      </p>
+    </div>
+  </div>
+
+  <div class="links-section">
+    <h2>🔗 Links</h2>
+    <div class="links-grid">
+      <a href="https://modrinth.com/user/Larguma" target="_blank" rel="noopener noreferrer" class="link-card modrinth">
+        <div class="link-icon">💚</div>
+        <div class="link-content">
+          <strong>Modrinth</strong>
+          <span>Modrinth is BAE</span>
+        </div>
+      </a>
+      <a href="https://www.curseforge.com/members/Larguma" target="_blank" rel="noopener noreferrer"
+        class="link-card curseforge">
+        <div class="link-icon">🔥</div>
+        <div class="link-content">
+          <strong>CurseForge</strong>
+          <span>Use Modrinth instead</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

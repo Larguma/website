@@ -1,0 +1,257 @@
+.home-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #1e1e2e;
+  border-radius: 18px;
+  border: 1px solid #45475a;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  margin-bottom: 3rem;
+}
+
+.eyebrow {
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a6adc8;
+  margin-bottom: 0.75rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #cba6f7 0%, #b4befe 50%, #89b4fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: #cdd6f4;
+  line-height: 1.8;
+  max-width: 720px;
+  margin: 0 auto 1.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+}
+
+.button.primary {
+  background: #cba6f7;
+  color: #1e1e2e;
+  box-shadow: 0 10px 30px rgba(203, 166, 247, 0.35);
+}
+
+.button.secondary {
+  background: transparent;
+  color: #cdd6f4;
+  border-color: #585b70;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.highlight-section {
+  margin-bottom: 3rem;
+}
+
+.highlight-section h2,
+.status-section h2,
+.links-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  background: #89b4fa;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.highlight-card {
+  background: #45475a;
+  border-radius: 16px;
+  padding: 1.75rem;
+  border: 1px solid #45475a;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.highlight-card p {
+  color: #bac2de;
+  line-height: 1.6;
+}
+
+.text-link {
+  color: #cba6f7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.pill {
+  align-self: flex-start;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: rgba(203, 166, 247, 0.15);
+  color: #cba6f7;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-section {
+  margin-bottom: 3rem;
+}
+
+.status-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.status-card {
+  background: #313244;
+  border-radius: 16px;
+  border: 1px solid #45475a;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.status-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.9rem;
+  font-weight: 600;
+}
+
+.status-label.in-progress {
+  background: rgba(203, 166, 247, 0.2);
+  color: #cba6f7;
+}
+
+.status-label.maybe {
+  background: rgba(137, 180, 250, 0.2);
+  color: #89b4fa;
+}
+
+.status-label.shipped {
+  background: rgba(166, 227, 161, 0.2);
+  color: #a6e3a1;
+}
+
+.status-card h3 {
+  margin: 0;
+  color: #f5e0dc;
+}
+
+.status-card p {
+  color: #a6adc8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.links-section {
+  margin-bottom: 2.5rem;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  background: #313244;
+  border-radius: 12px;
+  border: 1px solid #45475a;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.link-card:hover {
+  transform: translateY(-2px);
+  border-color: #cba6f7;
+  box-shadow: 0 4px 12px rgba(203, 166, 247, 0.2);
+}
+
+.link-icon {
+  font-size: 2.25rem;
+  margin-right: 1rem;
+}
+
+.link-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.link-content strong {
+  color: #cdd6f4;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.link-content span {
+  color: #a6adc8;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+}

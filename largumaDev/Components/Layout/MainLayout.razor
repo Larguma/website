@@ -1,11 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
+<div class="app-shell">
+    <header class="app-header">
         <NavMenu />
-    </div>
+    </header>
 
-    <main>
+    <main class="app-main">
         <article class="content px-4">
             @Body
         </article>
@@ -17,3 +17,5 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+<Footer />

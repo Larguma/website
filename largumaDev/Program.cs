@@ -1,4 +1,5 @@
 using largumaDev.Components;
+using largumaDev.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,14 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Add memory cache for badge caching
+builder.Services.AddMemoryCache();
+
 var app = builder.Build();
+
+Modrinth.MapRoutes(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+  app.UseExceptionHandler("/Error", createScopeForErrors: true);
+  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+  app.UseHsts();
 }
 
 app.UseHttpsRedirection();
