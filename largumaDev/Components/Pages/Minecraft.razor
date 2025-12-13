@@ -1,7 +1,10 @@
 ﻿@page "/Minecraft"
-@using System.Text
-@using Microsoft.VisualBasic
 @using largumaDev.Components.Layout
+@using Microsoft.VisualBasic
+@using System.Text
+@using System.Threading
+@implements IDisposable
+@rendermode InteractiveServer
 
 <PageTitle>Minecraft Mods - Larguma</PageTitle>
 
@@ -27,10 +30,11 @@
         <span class="badge">First Release</span>
       </div>
       <p class="mod-description">
-        My first mod I tried making 2 years ago ! And I restarted developping it the other day. It's now for Minecraft 1.21.1 on Neoforge. Go check it out on Modrinth and leaves suggestions. This time I will finish it I hope (: 
+        My first mod I tried making 2 years ago ! And I restarted developping it the other day. It's now for Minecraft
+        1.21.1 on Neoforge. Go check it out on Modrinth and leaves suggestions. This time I will finish it I hope (:
       </p>
       <div class="mod-badge-container">
-        <ModrinthBadge Slug="crawling-mysteries" />
+        <ModrinthBadge slug="crawling-mysteries" />
       </div>
     </div>
 
@@ -40,6 +44,27 @@
         More mods are in the works (or at least the idea of more mods). I'm trying new loader and libraries.
         Everything will be posted here, on Modrinth and CurseForge (eventually).
       </p>
+    </div>
+  </div>
+
+  <div class="mods-section">
+    <h2>⚙️ Utils</h2>
+
+    <div class="mod-card">
+      <div class="mod-header">
+        <h3>Pretty mod-badge-generator</h3>
+      </div>
+      <p class="mod-description">
+        A nice looking SVG badge generator for absolutely everything (mods, ressource packs, data packs, shaders,
+        modpacks, plugins) on Modrinth, just input the project slug : <a
+          href="/modrinth/badge/fabric-api">/modrinth/badge/{slug}</a>
+      </p>
+      <div class="mod-badge-container badge-carousel">
+        @for (int i = 0; i < slugs.Count; i++)
+        {
+          <ModrinthBadge slug="@slugs[i]" isActive="@(i == currentBadgeIndex)" />
+        }
+      </div>
     </div>
   </div>
 
@@ -64,3 +89,32 @@
     </div>
   </div>
 </div>
+
+@code {
+  private List<string> slugs = ["fabric-api", "fresh-animations", "veinminer", "complementary-reimagined",
+"fabulously-optimized", "simple-voice-chat"];
+  private int currentBadgeIndex = 0;
+  private PeriodicTimer? _timer;
+  private CancellationTokenSource _cts = new();
+
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      _timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+      while (await _timer.WaitForNextTickAsync(_cts.Token))
+      {
+        currentBadgeIndex = (currentBadgeIndex + 1) % slugs.Count;
+        await InvokeAsync(StateHasChanged);
+      }
+    }
+  }
+
+  public void Dispose()
+  {
+    _cts.Cancel();
+    _timer?.Dispose();
+    _cts.Dispose();
+  }
+}

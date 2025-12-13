@@ -1,26 +1,35 @@
 @inject NavigationManager Navigation
 
-<a href="https://modrinth.com/mod/@Slug" target="_blank" rel="noopener noreferrer" class="modrinth-badge-link">
-  <img src="@BadgeUrl" alt="@Slug on Modrinth" loading="lazy" />
+<a href="https://modrinth.com/mod/@slug" target="_blank" rel="noopener noreferrer" class="modrinth-badge-link @(isActive ? "active" : "")">
+  <img src="@badgeUrl" alt="@slug on Modrinth" loading="lazy" />
 </a>
 
 @code {
   [Parameter]
-  public required string Slug { get; set; }
+  public required string slug { get; set; }
 
-  private string BadgeUrl => $"{Navigation.BaseUri}modrinth/badge/{Slug}";
+  [Parameter]
+  public bool isActive { get; set; } = true;
+
+  private string badgeUrl => $"{Navigation.BaseUri}modrinth/badge/{slug}";
 }
 
 <style>
   .modrinth-badge-link {
-    display: inline-block;
+    grid-area: stack;
     line-height: 0;
-    transition: transform 0.2s ease;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+  }
+
+  .modrinth-badge-link.active {
+    opacity: 1;
+    z-index: 1;
   }
 
   .modrinth-badge-link:hover {
     transform: translateY(-2px);
-    margin-bottom: -4px;
     border-radius: 10px;
     border: 2px solid #cba6f7;
     box-shadow: 0 4px 12px rgba(203, 166, 247, 0.2);

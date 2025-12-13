@@ -110,6 +110,12 @@ h3 {
   justify-content: center;
 }
 
+.mod-badge-container.badge-carousel {
+  display: grid;
+  grid-template-areas: "stack";
+  place-items: center;
+}
+
 .mod-badge-container:hover {
   transform: translateY(-2px);
 }

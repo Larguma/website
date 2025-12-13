@@ -14,7 +14,7 @@ public static class Modrinth
 
   public static void MapRoutes(WebApplication app)
   {
-    http.DefaultRequestHeaders.UserAgent.ParseAdd("LargumaDev/1.0 (contact@larguma.com)");
+    http.DefaultRequestHeaders.UserAgent.ParseAdd("LargumaDev/1.0 (contact@larguma.dev)");
     _cache = app.Services.GetRequiredService<IMemoryCache>();
     app.MapGet("/modrinth/badge/{slug}", async (string slug, HttpResponse response) =>
     {
@@ -24,7 +24,7 @@ public static class Modrinth
         response.ContentType = "image/svg+xml";
 
         // Add cache headers for browser caching
-        TimeSpan maxAge = new(7, 0, 0, 0); // 7 days
+        TimeSpan maxAge = new(1, 0, 0, 0); // 1 day
         response.Headers.CacheControl = "public, max-age=" + maxAge.TotalSeconds.ToString("0");
 
         await response.WriteAsync(svg);
@@ -35,6 +35,19 @@ public static class Modrinth
         await response.WriteAsync("Error: " + ex.Message);
       }
     });
+
+    app.MapGet("/modrinth/badge/{slug}/clear-cache", async (string slug, HttpResponse response) =>
+    {
+      string result = await ClearCache(slug);
+      await response.WriteAsync(result);
+    });
+  }
+
+  public static async Task<string> ClearCache(string slug)
+  {
+    string cacheKey = $"modrinth_badge_{slug}";
+    _cache?.Remove(cacheKey);
+    return "Cache cleared for " + slug;
   }
 
   public static async Task<string> GenerateBadge(string slug)
