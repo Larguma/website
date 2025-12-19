@@ -23,7 +23,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseForwardedHeaders();
+app.Use((ctx, next) =>
+{
+  ctx.Request.Scheme = "https";
+  return next();
+});
 
 app.UseAntiforgery();
 
