@@ -9,10 +9,12 @@ builder.Services.AddRazorComponents()
 
 // Add memory cache for badge caching
 builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
 Modrinth.MapRoutes(app);
+Bgg.MapRoutes(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

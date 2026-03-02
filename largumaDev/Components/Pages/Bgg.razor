@@ -1,0 +1,236 @@
+﻿@page "/bgg"
+@using largumaDev.Utils
+@rendermode InteractiveServer
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
+
+<PageTitle>BGG - Larguma</PageTitle>
+
+<div class="bgg-page">
+  <div class="page-header">
+    <h1>🎲 Board Game Geek</h1>
+    <p class="subtitle">get boardgamed</p>
+  </div>
+
+  <div class="bgg-search">
+    <input type="text" @bind="username" @bind:event="oninput" @onkeydown="OnKeyDown" placeholder="BGG Username"
+           disabled="@(isLoading || isSpinning)" />
+    <button @onclick="LoadCollection" disabled="@(isLoading || isSpinning || string.IsNullOrWhiteSpace(username))">
+      @(isLoading ? "Loading..." : "Load Collection")
+    </button>
+  </div>
+
+  @if (isLoading)
+  {
+    <div class="loading-spinner-container">
+      <div class="loading-spinner"></div>
+      <p>Loading collection...</p>
+    </div>
+  }
+
+  @if (errorMessage != null)
+  {
+    <p class="error">@errorMessage</p>
+  }
+
+  @if (games != null && games.Count > 0)
+  {
+    <div class="filters fade-slide-in">
+      <div class="filter-group">
+        <label>Players</label>
+        <input type="number" min="1" max="20" @bind="filterPlayers" @bind:event="oninput" placeholder="Any"
+               disabled="@isSpinning" />
+      </div>
+      <div class="filter-group">
+        <label>Max play time</label>
+        <select @bind="filterMaxTime" disabled="@isSpinning">
+          <option value="0">Any</option>
+          <option value="30">30 min</option>
+          <option value="60">1 hour</option>
+          <option value="90">1.5 hours</option>
+          <option value="120">2 hours</option>
+          <option value="180">3 hours</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Min rating</label>
+        <select @bind="filterMinRating" disabled="@isSpinning">
+          <option value="0">Any</option>
+          <option value="6">6+</option>
+          <option value="7">7+</option>
+          <option value="8">8+</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="filter-count fade-slide-in delay-1">@filteredGames.Count of @games.Count games match</p>
+
+    <div class="slot-machine fade-slide-in delay-2">
+      <div class="slot-particles" aria-hidden="true">
+        <span>🎲</span><span>🎲</span><span>🎲</span>
+        <span>🎲</span><span>🎲</span><span>🎲</span>
+      </div>
+
+      <div class="slot-display @(isSpinning ? "spinning" : "") @(chosenGame != null && !isSpinning ? "chosen" : "")">
+        @if (chosenGame != null && !isSpinning)
+        {
+          <div class="slot-game">
+            @if (!string.IsNullOrEmpty(chosenGame.Thumbnail))
+            {
+              <img src="@chosenGame.Thumbnail" alt="@chosenGame.Name" />
+            }
+            <div class="slot-game-info">
+              <h3>@chosenGame.Name</h3>
+              <span class="slot-game-year">@chosenGame.Year</span>
+              <div class="slot-game-meta">
+                @if (chosenGame.MinPlayers != chosenGame.MaxPlayers)
+                {
+                  <span>👥 @chosenGame.MinPlayers–@chosenGame.MaxPlayers</span>
+                }
+                else
+                {
+                  <span>👥 @chosenGame.MinPlayers</span>
+                }
+                @if (chosenGame.PlayTime > 0)
+                {
+                  <span>⏱️ @chosenGame.PlayTime min</span>
+                }
+                @if (chosenGame.Rating > 0)
+                {
+                  <span>⭐ @chosenGame.Rating.ToString("0.0")</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+        else if (filteredGames.Count > 0)
+        {
+          <div class="slot-reel">
+            @for (int i = -1; i <= 1; i++)
+            {
+              BoardGame reelGame = GetReelGame(i);
+              <div class="slot-item @(i == 0 ? "center" : "adjacent") @(isSpinning ? "ticking" : "")">
+                @if (!string.IsNullOrEmpty(reelGame.Thumbnail))
+                {
+                  <img src="@reelGame.Thumbnail" alt="@reelGame.Name" />
+                }
+                <span>@reelGame.Name</span>
+              </div>
+            }
+          </div>
+        }
+        else
+        {
+          <p class="slot-placeholder">No games match your filters</p>
+        }
+      </div>
+
+      <button class="spin-button" @onclick="Spin" disabled="@(isSpinning || filteredGames.Count == 0)">
+        @(isSpinning ? "SPINNING..." : "Pick a Random Game!")
+      </button>
+    </div>
+  }
+
+  <div class="bgg-attribution">
+    <a href="https://boardgamegeek.com" target="_blank" rel="noopener noreferrer">
+      <img src="images/powered_by_BGG_02_MED.png" alt="Powered by BoardGameGeek" />
+    </a>
+  </div>
+</div>
+
+
+@code {
+  private string username = "";
+  private List<BoardGame>? games;
+  private string? errorMessage;
+  private bool isLoading;
+  private bool isSpinning;
+  private int displayedGameIndex;
+  private BoardGame? chosenGame;
+  private List<BoardGame>? spinPool;
+
+  private int? filterPlayers;
+  private int filterMaxTime;
+  private double filterMinRating;
+
+  private List<BoardGame> filteredGames => games?.Where(g =>
+    (filterPlayers == null || (g.MinPlayers <= filterPlayers && g.MaxPlayers >= filterPlayers)) &&
+    (filterMaxTime == 0 || g.PlayTime <= filterMaxTime) &&
+    (filterMinRating == 0 || g.Rating >= filterMinRating)
+  ).ToList() ?? [];
+
+  private BoardGame GetReelGame(int offset)
+  {
+    List<BoardGame> pool = spinPool ?? filteredGames;
+    int idx = ((displayedGameIndex + offset) % pool.Count + pool.Count) % pool.Count;
+    return pool[idx];
+  }
+
+  private async Task OnKeyDown(KeyboardEventArgs e)
+  {
+    if (e.Key == "Enter") await LoadCollection();
+  }
+
+  private async Task LoadCollection()
+  {
+    if (string.IsNullOrWhiteSpace(username)) return;
+
+    isLoading = true;
+    errorMessage = null;
+    games = null;
+    chosenGame = null;
+    spinPool = null;
+    displayedGameIndex = 0;
+
+    try
+    {
+      HttpClient client = HttpClientFactory.CreateClient();
+      client.BaseAddress = new Uri(Navigation.BaseUri);
+      games = await client.GetFromJsonAsync<List<BoardGame>>($"/bgg/collection/{Uri.EscapeDataString(username)}/games");
+    }
+    catch (Exception ex)
+    {
+      errorMessage = "Failed to load collection: " + ex.Message;
+    }
+    finally
+    {
+      isLoading = false;
+    }
+  }
+
+  private async Task Spin()
+  {
+    List<BoardGame> pool = filteredGames;
+    if (pool.Count == 0) return;
+
+    isSpinning = true;
+    chosenGame = null;
+    spinPool = pool;
+
+    Random rng = new();
+    int winnerIndex = rng.Next(pool.Count);
+    // Increase ticks for more drama
+    int totalTicks = 45 + rng.Next(15);
+
+    displayedGameIndex = ((winnerIndex - totalTicks % pool.Count) + pool.Count) % pool.Count;
+
+    // Small delay to let the shake animation start and build tension
+    await Task.Delay(200);
+
+    for (int i = 0; i < totalTicks; i++)
+    {
+      displayedGameIndex = (displayedGameIndex + 1) % pool.Count;
+      StateHasChanged();
+
+      double progress = (double)i / totalTicks;
+      // Exponential delay: starts fast, ends slow
+      int delay = (int)(40 + 460 * Math.Pow(progress, 2.5));
+      await Task.Delay(delay);
+    }
+
+    // Final pause before showing the result
+    await Task.Delay(100);
+    chosenGame = pool[displayedGameIndex];
+    isSpinning = false;
+  }
+}

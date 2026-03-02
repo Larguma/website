@@ -57,7 +57,7 @@
       <p class="mod-description">
         A nice looking SVG badge generator for absolutely everything (mods, ressource packs, data packs, shaders,
         modpacks, plugins) on Modrinth, just input the project slug : <a
-          href="/modrinth/badge/fabric-api">/modrinth/badge/{slug}</a>
+        href="/modrinth/badge/fabric-api">/modrinth/badge/{slug}</a>
       </p>
       <div class="mod-badge-container badge-carousel">
         @for (int i = 0; i < slugs.Count; i++)
@@ -79,7 +79,7 @@
         </div>
       </a>
       <a href="https://www.curseforge.com/members/Larguma" target="_blank" rel="noopener noreferrer"
-        class="link-card curseforge">
+         class="link-card curseforge">
         <div class="link-icon">🔥</div>
         <div class="link-content">
           <strong>CurseForge</strong>
@@ -103,11 +103,15 @@
     if (firstRender)
     {
       _timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
-      while (await _timer.WaitForNextTickAsync(_cts.Token))
+      try
       {
-        currentBadgeIndex = (currentBadgeIndex + 1) % slugs.Count;
-        await InvokeAsync(StateHasChanged);
+        while (await _timer.WaitForNextTickAsync(_cts.Token))
+        {
+          currentBadgeIndex = (currentBadgeIndex + 1) % slugs.Count;
+          await InvokeAsync(StateHasChanged);
+        }
       }
+      catch (OperationCanceledException) { }
     }
   }
 

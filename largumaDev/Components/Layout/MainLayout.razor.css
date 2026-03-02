@@ -1,5 +1,5 @@
 .app-shell {
-    min-height: 100vh;
+    min-height: 95vh;
     display: flex;
     flex-direction: column;
     background: radial-gradient(circle at top, rgb(180, 190, 254, 0.1), transparent 55%), #11111b;
