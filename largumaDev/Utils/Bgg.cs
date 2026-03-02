@@ -38,26 +38,6 @@ public static class Bgg
       _bggCookie = $"bggusername={bggUser}; bggpassword={bggToken};";
     }
 
-    _ = app.MapGet("/bgg/collection/{username}", async (string username, HttpResponse response) =>
-    {
-      try
-      {
-        string xml = await GetCollection(username);
-        response.ContentType = "application/xml";
-
-        // Add cache headers for browser caching
-        TimeSpan maxAge = new(30, 0, 0, 0); // 30 day
-        response.Headers.CacheControl = "public, max-age=" + maxAge.TotalSeconds.ToString("0");
-
-        await response.WriteAsync(xml);
-      }
-      catch (Exception ex)
-      {
-        response.StatusCode = 500;
-        await response.WriteAsync("Error: " + ex.Message);
-      }
-    });
-
     _ = app.MapGet("/bgg/collection/{username}/clear-cache", async (string username, HttpResponse response) =>
     {
       string result = await ClearCache(username);
@@ -81,6 +61,7 @@ public static class Bgg
 
   public static async Task<string> ClearCache(string username)
   {
+    username = username.Trim().ToLower();
     string cacheKey = $"bgg_collection_{username}";
     _cache?.Remove(cacheKey);
     return "Cache cleared for " + username;
@@ -122,7 +103,8 @@ public static class Bgg
 
   private static async Task<string> GetCollection(string username)
   {
-    // Check cache first
+    username = username.Trim().ToLower();
+    
     string cacheKey = $"bgg_collection_{username}";
     if (_cache?.TryGetValue(cacheKey, out string? cachedXml) == true && cachedXml != null)
     {
@@ -150,7 +132,6 @@ public static class Bgg
       _ = response.EnsureSuccessStatusCode();
       string xml = await response.Content.ReadAsStringAsync();
 
-      // Cache the result for future requests
       _ = (_cache?.Set(cacheKey, xml, TimeSpan.FromDays(1)));
 
       return xml;
